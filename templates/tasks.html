@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>任务管理 - TaskConductor</title>
+  <style>
+    body { font-family: sans-serif; background: #f9f9f9; padding: 30px; }
+    h1 { text-align: center; }
+    .task-section { margin-top: 30px; }
+    .task-table { width: 100%; max-width: 800px; margin: auto; border-collapse: collapse; }
+    .task-table th, .task-table td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    .form-box { max-width: 600px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .form-box input, .form-box select, .form-box button {
+      width: 100%; padding: 8px; margin: 10px 0; font-size: 16px;
+    }
+    .form-box button { background: #4caf50; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .back-home:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<a href="/" class="back-home">🏠 返回主页</a>
+
+<h1>🗂️ 任务管理页面</h1>
+
+<div class="form-box">
+  <form method="POST">
+    <label>任务名称</label>
+    <input type="text" name="name" required />
+    
+    <label>类别</label>
+    <select name="category">
+      <option value="CoreA">A类</option>
+      <option value="CoreB">B类</option>
+      <option value="CoreC">C类</option>
+      <option value="CoreD">D类</option>
+      <option value="Temp">临时任务</option>
+    </select>
+
+    <label>截止日期</label>
+    <input type="date" name="due_date" required />
+
+    <label>优先级（1-5）</label>
+    <input type="number" name="priority" min="1" max="5" required />
+
+    <button type="submit">💾 添加/修改任务</button>
+  </form>
+</div>
+
+<h1>📌 添加一次性任务</h1>
+<div class="form-box">
+  <form method="POST">
+    <input type="hidden" name="form_type" value="one_time_add">
+    <label>任务名称</label>
+    <input type="text" name="name" required />
+    <label>开始时间</label>
+    <input type="datetime-local" name="start_time" required />
+    <label>结束时间</label>
+    <input type="datetime-local" name="end_time" required />
+    <button type="submit">➕ 添加一次性任务</button>
+  </form>
+</div>
+
+<h2>🧾 当前一次性任务</h2>
+<table class="task-table">
+  <tr><th>任务名</th><th>开始</th><th>结束</th><th>完成</th><th>操作</th></tr>
+  {% for t in one_time %}
+  <tr>
+    <td>{{ t.name }}</td>
+    <td>{{ t.start_time[5:16] }}</td>
+    <td>{{ t.end_time[5:16] }}</td>
+    <td>{{ "✅" if t.completed else "❌" }}</td>
+    <td>
+      <form method="POST" style="display:inline;">
+        <input type="hidden" name="form_type" value="one_time_delete">
+        <input type="hidden" name="name" value="{{ t.name }}">
+        <button type="submit">🗑 删除</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+
+{% for cat in ["CoreA", "CoreB", "CoreC", "CoreD"] %}
+  <div class="task-section">
+    <h2>📁 类别：{{ cat }}</h2>
+    <table class="task-table">
+      <tr>
+        <th>任务名称</th>
+        <th>截止日期</th>
+        <th>优先级</th>
+        <th>历史记录数</th>
+      </tr>
+      {% for t in tasks if t.category == cat %}
+      <tr>
+        <td>{{ t.name }}</td>
+        <td>{{ t.due_date }}</td>
+        <td>{{ t.priority }}</td>
+        <td>{{ t.history | length }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endfor %}
+
+</body>
+</html>

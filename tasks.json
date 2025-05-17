@@ -1,0 +1,223 @@
+{
+  "core_tasks": [
+    {
+      "name": "申请博士",
+      "category": "CoreA",
+      "due_date": "2025-07-01",
+      "priority": 5,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "写论文",
+      "category": "CoreA",
+      "due_date": "2025-06-20",
+      "priority": 5,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "毕业设计",
+      "category": "CoreA",
+      "due_date": "2025-07-15",
+      "priority": 5,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "准备考试",
+      "category": "CoreA",
+      "due_date": "2025-06-10",
+      "priority": 4,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "找工作",
+      "category": "CoreA",
+      "due_date": "2025-07-31",
+      "priority": 4,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "查收邮件",
+      "category": "CoreB",
+      "due_date": "2025-12-31",
+      "priority": 2,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "联系家人",
+      "category": "CoreB",
+      "due_date": "2025-12-31",
+      "priority": 2,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "更新简历",
+      "category": "CoreB",
+      "due_date": "2025-08-01",
+      "priority": 3,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "整理电脑",
+      "category": "CoreB",
+      "due_date": "2025-08-15",
+      "priority": 3,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "背单词",
+      "category": "CoreC",
+      "due_date": "2025-12-31",
+      "priority": 2,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "练口语",
+      "category": "CoreC",
+      "due_date": "2025-12-31",
+      "priority": 2,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "股票观察",
+      "category": "CoreC",
+      "due_date": "2025-12-31",
+      "priority": 2,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "与助手反思",
+      "category": "CoreC",
+      "due_date": "2025-12-31",
+      "priority": 2,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "户外活动",
+      "category": "CoreD",
+      "due_date": "2025-12-31",
+      "priority": 0,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "放松/冥想",
+      "category": "CoreD",
+      "due_date": "2025-12-31",
+      "priority": 0,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    },
+    {
+      "name": "睡眠/休息",
+      "category": "CoreD",
+      "due_date": "2025-12-31",
+      "priority": 0,
+      "finished": false,
+      "history": [],
+      "switch_count": 0
+    }
+  ],
+  "one_time_tasks": [],
+  "household_schedule": {
+    "leave_home": "08:30",
+    "return_home": "22:00"
+  },
+  "today_status": [
+    {
+      "task": "准备考试",
+      "start_time": "2025-05-17T08:00:00",
+      "end_time": "2025-05-17T08:45:00"
+    },
+    {
+      "task": "写论文",
+      "start_time": "2025-05-17T08:45:00",
+      "end_time": "2025-05-17T09:30:00"
+    },
+    {
+      "task": "申请博士",
+      "start_time": "2025-05-17T09:30:00",
+      "end_time": "2025-05-17T10:15:00"
+    },
+    {
+      "task": "毕业设计",
+      "start_time": "2025-05-17T10:15:00",
+      "end_time": "2025-05-17T11:00:00"
+    },
+    {
+      "task": "找工作",
+      "start_time": "2025-05-17T11:00:00",
+      "end_time": "2025-05-17T11:45:00"
+    },
+    {
+      "task": "更新简历",
+      "start_time": "2025-05-17T14:00:00",
+      "end_time": "2025-05-17T14:45:00"
+    },
+    {
+      "task": "整理电脑",
+      "start_time": "2025-05-17T14:45:00",
+      "end_time": "2025-05-17T15:30:00"
+    },
+    {
+      "task": "查收邮件",
+      "start_time": "2025-05-17T15:30:00",
+      "end_time": "2025-05-17T16:15:00"
+    },
+    {
+      "task": "联系家人",
+      "start_time": "2025-05-17T16:15:00",
+      "end_time": "2025-05-17T17:00:00"
+    },
+    {
+      "task": "背单词",
+      "start_time": "2025-05-17T17:00:00",
+      "end_time": "2025-05-17T17:45:00"
+    },
+    {
+      "task": "练口语",
+      "start_time": "2025-05-17T20:00:00",
+      "end_time": "2025-05-17T20:45:00"
+    },
+    {
+      "task": "股票观察",
+      "start_time": "2025-05-17T20:45:00",
+      "end_time": "2025-05-17T21:30:00"
+    }
+  ],
+  "task_feedback_log": [
+    {
+      "task": "写论文",
+      "date": "2025-05-17",
+      "status": "partial",
+      "duration_min": 25
+    }
+  ]
+}

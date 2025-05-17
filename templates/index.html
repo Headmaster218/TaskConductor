@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>任务主页 - TaskConductor</title>
+  <style>
+    body { font-family: sans-serif; background: #f2f2f2; padding: 30px; }
+    h1 { text-align: center; }
+    .task-box {
+      background: white;
+      padding: 15px;
+      margin: 10px auto;
+      max-width: 600px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .task-time { font-size: 14px; color: #555; }
+    .task-name { font-size: 18px; margin-top: 5px; }
+    .nav-buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .nav-buttons a, .nav-buttons button {
+      margin: 10px;
+      padding: 10px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background: #2196f3;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .nav-buttons button:hover, .nav-buttons a:hover {
+      background: #1976d2;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📋 TaskConductor 今日任务面板</h1>
+
+<div class="nav-buttons">
+  <a href="/now">⏱️ 实时执行</a>
+  <a href="/summary">📊 统计分析</a>
+  <a href="/tasks">🎯 任务管理</a>
+  <button onclick="generate()">🔄 重新生成任务</button>
+</div>
+
+{% if today_plan %}
+  {% for t in today_plan %}
+    <div class="task-box">
+      <div class="task-time">🕒 {{ t.start_time[11:16] }} - {{ t.end_time[11:16] }}</div>
+      <div class="task-name">🎯 {{ t.task }}</div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p style="text-align:center;">⚠️ 暂无今日任务，请点击生成。</p>
+{% endif %}
+
+<script>
+function generate() {
+  fetch("/generate", { method: "POST" })
+    .then(res => res.json())
+    .then(data => {
+      alert("✅ 今日任务已生成！");
+      location.reload();
+    }).catch(err => {
+      alert("❌ 出错：" + err);
+    });
+}
+</script>
+
+</body>
+</html>

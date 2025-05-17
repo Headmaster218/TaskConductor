@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>实时任务执行 - TaskConductor</title>
+  <script src="/today_status.js"></script>
+  <style>
+    body { font-family: sans-serif; background: #111; color: white; text-align: center; padding: 30px; }
+    h1 { font-size: 32px; margin-bottom: 10px; }
+    .timer { font-size: 20px; margin: 10px; color: #ccc; }
+    .big { font-size: 28px; margin: 20px 0; color: #ffd700; }
+    button {
+      padding: 10px 20px; margin: 10px; font-size: 16px;
+      border: none; border-radius: 6px; cursor: pointer;
+    }
+    .flow { background: #4caf50; color: white; }
+    .switch { background: #2196f3; color: white; }
+    .feedback { background: #fbc02d; color: black; }
+    a {
+      padding: 10px 20px; margin: 10px; font-size: 16px;
+      border: none; border-radius: 6px; cursor: pointer;
+    }
+    .back { background: red; color: #111;}
+  </style>
+</head>
+<body>
+
+<h1 id="current-time" class="timer" style="font-size: 120px;">--:--:--</h1>
+<div class="big" id="task-name">正在加载任务...</div>
+<div class="timer" id="task-time-range">--:-- ~ --:--</div>
+
+<a class="back" href="/">🏠 返回主页</a>
+<button class="flow" onclick="extendTask()">🧘 心流延长</button>
+<button class="switch" onclick="switchTask()">🔁 切换任务</button>
+<button class="feedback" onclick="sendFeedback()">✅ 提交反馈</button>
+<button class="flow" onclick="markTaskDone()">✅ 标记为已完成</button>
+
+
+<audio id="bell" src="/static/bell.mp3" preload="auto"></audio>
+
+<script>
+let lastValidTaskIndex = -1;
+let currentTaskIndex = -1;
+let isExtended = false;
+let lastAnnouncedTask = null;
+let previousEndTime = null;
+let feedbackAsked = false;
+let awaitingFeedback = false;
+
+
+function updateTime() {
+  const now = new Date();
+  document.getElementById("current-time").innerText = now.toLocaleTimeString();
+
+  if (!todayStatus || todayStatus.length === 0) return;
+
+  for (let i = 0; i < todayStatus.length; i++) {
+    const t = todayStatus[i];
+    const start = new Date(t.start_time);
+    const end = new Date(t.end_time);
+
+    if (now >= start && (now <= end || isExtended)) {
+      if (currentTaskIndex !== i) {
+        lastValidTaskIndex = currentTaskIndex;
+        currentTaskIndex = i;
+        lastAnnouncedTask = t.task;
+        playBell();
+        showTask(t);
+        previousEndTime = end;
+        feedbackAsked = false;
+      }
+      return;
+    }
+  }
+
+  // 若非任何任务时间段，并且任务已结束，自动请求反馈
+  if (!isExtended && previousEndTime && !feedbackAsked) {
+    if (now > previousEndTime) {
+      feedbackAsked = true;
+      awaitingFeedback = true; // ✅ 锁定切换
+      sendFeedback();
+    }
+  }
+
+
+  // 若无任务匹配当前时间
+  document.getElementById("task-name").innerText = "🛑 暂无任务";
+  document.getElementById("task-time-range").innerText = "--:-- ~ --:--";
+}
+
+function showTask(t) {
+  document.getElementById("task-name").innerText = "🎯 " + t.task;
+  document.getElementById("task-time-range").innerText =
+    formatTime(t.start_time) + " ~ " + formatTime(t.end_time);
+}
+
+function formatTime(isoStr) {
+  return new Date(isoStr).toTimeString().slice(0, 5);
+}
+
+function playBell() {
+  document.getElementById("bell").play();
+}
+
+function extendTask() {
+  isExtended = true;
+  alert("已进入心流延长状态 🧘，任务将持续直到你手动切换。");
+}
+
+function switchTask() {
+  if (awaitingFeedback) {
+    alert("⚠️ 请先提交当前任务的反馈再切换。");
+    return;
+  }
+
+  isExtended = false;
+  currentTaskIndex++;
+  if (currentTaskIndex >= todayStatus.length) {
+    alert("今日任务已全部完成！");
+    return;
+  }
+  playBell();
+  showTask(todayStatus[currentTaskIndex]);
+}
+
+
+function sendFeedback() {
+  let taskIndex = currentTaskIndex;
+  if (taskIndex < 0 || taskIndex >= todayStatus.length) {
+    taskIndex = lastValidTaskIndex;
+    if (taskIndex < 0) {
+      alert("暂无任务可反馈");
+      return;
+    }
+  }
+
+  const task = todayStatus[taskIndex].task;
+  const status = prompt("请输入任务状态（done/partial/fail）：", "done");
+  const duration = prompt("请输入本次大致时间（分钟）：", "45");
+
+  fetch('/feedback', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      task: task,
+      status: status,
+      duration_min: parseInt(duration)
+    })
+  }).then(res => res.json()).then(data => {
+    alert("✅ 已提交反馈！");
+    awaitingFeedback = false; // ✅ 解锁
+  }).catch(err => {
+    alert("❌ 提交失败：" + err);
+  });
+}
+
+
+
+setInterval(updateTime, 1000); // 每秒更新时间与任务识别
+</script>
+
+</body>
+</html>

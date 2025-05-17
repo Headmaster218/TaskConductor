@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>任务统计分析 - TaskConductor</title>
+  <style>
+    body { font-family: sans-serif; padding: 30px; background: #f0f0f0; }
+    h1 { text-align: center; }
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      margin: 20px auto;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    th { background: #2196f3; color: white; }
+    td { background: #fafafa; }
+  </style>
+</head>
+<body>
+
+<h1>📊 任务统计分析</h1>
+
+<table>
+  <tr>
+    <th>任务名</th>
+    <th>总次数</th>
+    <th>完成</th>
+    <th>部分</th>
+    <th>中断</th>
+    <th>平均用时（分钟）</th>
+    <th>完成率 %</th>
+  </tr>
+  {% for name, stat in stats.items() %}
+  <tr>
+    <td>{{ name }}</td>
+    <td>{{ stat.total }}</td>
+    <td>{{ stat.done }}</td>
+    <td>{{ stat.partial }}</td>
+    <td>{{ stat.fail }}</td>
+    <td>{{ stat.avg_time }}</td>
+    <td>{{ stat.rate }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<div style="text-align: center; margin-top: 20px;">
+  <a href="/" style="
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  ">返回主页</a>
+</div>
+
+</body>
+</html>
